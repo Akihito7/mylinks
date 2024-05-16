@@ -7,7 +7,7 @@ export function Button() {
             opacity: 0.8
         }}>
             <Text
-                fontWeight="bold"
+                fontFamily="heading"
                 fontSize="xl"
                 color="white"
             >

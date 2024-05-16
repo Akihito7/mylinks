@@ -18,7 +18,7 @@ export function AboutLink() {
                         <Text
                             color="gray.100"
                             fontSize="md"
-                            fontWeight="bold"
+                            fontFamily="heading"
                             flex={1}
                         >
                             Criar link
@@ -28,8 +28,6 @@ export function AboutLink() {
                             <Text
                                 color="gray.300"
                                 fontSize="md"
-
-
                             >
                                 Voltar
                             </Text>

@@ -12,7 +12,7 @@ export function CardItem() {
         >
             <Text
                 color="gray.100"
-                fontWeight="bold"
+                fontFamily="heading"
                 fontSize="md"
             >
                 How to play of riven in lol

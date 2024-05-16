@@ -35,7 +35,7 @@ export function Header() {
                 <Text
                     fontSize="md"
                     color="gray.100"
-                    fontWeight="bold"
+                    fontFamily="heading"
 
                 >
                     Guilherme Akihito

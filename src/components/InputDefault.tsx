@@ -15,6 +15,7 @@ export function InputDefault() {
             <Input
                 bg="transparent"
                 borderWidth={0}
+                
                 color="gray.100"
                 fontSize="md"
                 placeholder="Title"

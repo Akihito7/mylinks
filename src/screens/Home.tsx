@@ -15,7 +15,7 @@ export function Home() {
                 <InputSearch />
 
                 <Text
-                    fontWeight="bold"
+                    fontFamily="heading"
                     fontSize="xl"
                     color="gray.100"
                     textAlign="center"

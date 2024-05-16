@@ -29,8 +29,8 @@ export const THEME = extendTheme({
         },
     },
     fonts: {
-        heading: 'Roboto_700Bold',
-        body: 'Roboto_400Regular',
+        heading: 'RobotoSlab_700Bold',
+        body: 'RobotoSlab_400Regular',
     },
     fontSizes: {
         xs: 12,

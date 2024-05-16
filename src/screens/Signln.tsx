@@ -3,11 +3,23 @@ import { InputDefault } from "../components/InputDefault";
 import { Button } from "../components/Button";
 import { Image, ScrollView, TouchableOpacity } from "react-native";
 import backgroundImg from "../../assets/back.png";
+import { useForm, Controller } from "react-hook-form"
+import { api } from "../services/axios";
+import { useAuth } from "../Contexts/AuthContext";
+
+
+type PropsLogin = {
+    email: string;
+    password: string;
+}
 
 
 export function Signln() {
 
     const { colors } = useTheme();
+    const { user, setUser } = useAuth();
+
+    const { handleSubmit, control } = useForm();
 
     return (
 
@@ -65,13 +77,39 @@ export function Signln() {
                     No more losing important links, save them with just a few clicks
                 </Text>
 
-                <InputDefault placeholder="Email" />
-                <InputDefault
-                    placeholder="Senha"
-                    type="password"
+                <Controller
+                    name="email"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+
+                        <InputDefault
+
+                            placeholder="Email"
+                            onChangeText={onChange}
+                            value={value}
+
+                        />
+                    )}
+                />
+                <Controller
+                    name="password"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+
+                        <InputDefault
+
+                            placeholder="Senha"
+                            onChangeText={onChange}
+                            value={value}
+
+                        />
+                    )}
                 />
 
-                <Button />
+
+
+
+                <Button onPress={() => {}} />
 
                 <TouchableOpacity>
                     <Text

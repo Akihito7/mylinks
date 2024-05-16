@@ -1,31 +1,29 @@
-import { HStack, Input, IInputProps } from "native-base";
+    import { HStack, Input, IInputProps } from "native-base";
+    import { Ionicons } from '@expo/vector-icons';
+    import { useTheme } from "native-base";
 
-export function InputDefault({ placeholder, ...restProps }: IInputProps) {
+    export function InputDefault({ placeholder, ...restProps }: IInputProps) {
 
-    return (
+        const { colors } = useTheme()
 
-        <HStack
-            width="full"
-            bg="gray.500"
-            borderRadius={10}
-            mb={2}
-            alignItems="center"
-            h={14}
-        >
-            <Input
-                bg="transparent"
-                borderWidth={0}
+        return (
 
-                color="gray.100"
-                fontSize="md"
-                placeholder={placeholder}
-                placeholderTextColor="gray.300"
-                {...restProps}
-                _focus={{
-                    bg: "transparent",
+            <HStack 
+            width="full" bg="gray.500" borderRadius={10} mb={2} alignItems="center" h={14}>
+                <Input
+                    bg="transparent"
+                    borderWidth={0}
 
-                }}
-            />
-        </HStack>
-    )
-}
+                    color="gray.100"
+                    fontSize="md"
+                    placeholder={placeholder}
+                    placeholderTextColor="gray.300"
+                    {...restProps}
+                    _focus={{
+                        bg: "transparent",
+
+                    }}
+                />
+            </HStack>
+        )
+    }

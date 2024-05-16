@@ -3,8 +3,8 @@ import { extendTheme } from "native-base";
 
 export const THEME = extendTheme({
     colors: {
-        blue : {
-            700 : "#022442"
+        blue: {
+            700: "#022442"
         },
         green: {
             700: '#00875F',
@@ -22,7 +22,11 @@ export const THEME = extendTheme({
         white: '#FFFFFF',
         red: {
             500: '#F75A68'
-        }
+        },
+
+        purple: {
+            500: "#5636D3"
+        },
     },
     fonts: {
         heading: 'Roboto_700Bold',

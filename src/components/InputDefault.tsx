@@ -18,7 +18,7 @@ export function InputDefault() {
                 color="gray.100"
                 fontSize="md"
                 placeholder="Title"
-                placeholderTextColor="gray.500"
+                placeholderTextColor="gray.300"
                 type="text"
 
                 _focus={{

@@ -7,7 +7,7 @@ import { AboutLink } from './src/screens/AboutLink';
 export default function App() {
   return (
     <NativeBaseProvider theme={THEME}>
-      <Home />
+      <AboutLink />
       <StatusBar style="auto" />
     </NativeBaseProvider>
   );

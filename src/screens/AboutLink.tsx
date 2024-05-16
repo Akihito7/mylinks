@@ -1,9 +1,10 @@
-import { Box, ScrollView, Text, TextArea } from "native-base";
+import { Box, HStack, ScrollView, Text, TextArea } from "native-base";
 import { Header } from "../components/Header";
 import { InputDefault } from "../components/InputDefault";
 
 
 import { Button } from "../components/Button";
+import { TouchableOpacity } from "react-native";
 
 export function AboutLink() {
     return (
@@ -12,6 +13,30 @@ export function AboutLink() {
 
             <ScrollView mt={8} px={4} flex={1} bg="gray.600" borderTopRadius={40}>
                 <Box mt={8}>
+
+                    <HStack px={4} mb={4} alignItems="center">
+                        <Text
+                            color="gray.100"
+                            fontSize="md"
+                            fontWeight="bold"
+                            flex={1}
+                        >
+                            Criar link
+                        </Text>
+
+                        <TouchableOpacity>
+                            <Text
+                                color="gray.300"
+                                fontSize="md"
+
+
+                            >
+                                Voltar
+                            </Text>
+
+                        </TouchableOpacity>
+                    </HStack>
+
                     <InputDefault />
                     <InputDefault />
 
@@ -25,7 +50,7 @@ export function AboutLink() {
                         h={32}
                         mb={2}
                         placeholder="Descrição (Opcional)"
-                        placeholderTextColor="gray.500"
+                        placeholderTextColor="gray.300"
                         _focus={{
                             bg: "gray.700"
                         }}
@@ -33,14 +58,8 @@ export function AboutLink() {
                     </TextArea>
                     <Button />
 
-
                 </Box>
             </ScrollView>
-
-
-
-
-
         </Box >
     )
 }

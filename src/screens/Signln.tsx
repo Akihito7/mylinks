@@ -65,8 +65,11 @@ export function Signln() {
                     No more losing important links, save them with just a few clicks
                 </Text>
 
-                <InputDefault />
-                <InputDefault />
+                <InputDefault placeholder="Email" />
+                <InputDefault
+                    placeholder="Senha"
+                    type="password"
+                />
 
                 <Button />
 
@@ -77,24 +80,24 @@ export function Signln() {
                         fontSize="sm"
                         fontFamily="body"
                         mt={4}
-                    
+
                     >
                         Esqueci minha senha
                     </Text>
                 </TouchableOpacity>
 
 
-                
-                    <Text
-                        px={14}
-                        color="white"
-                        fontSize="sm"
-                        fontFamily="body"
-                        position="absolute"
-                        bottom={5}                    
-                    >
-                        Ainda não tenho conta
-                    </Text>
+
+                <Text
+                    px={14}
+                    color="white"
+                    fontSize="sm"
+                    fontFamily="body"
+                    position="absolute"
+                    bottom={5}
+                >
+                    Ainda não tenho conta
+                </Text>
             </VStack>
         </ScrollView>
     )

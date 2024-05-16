@@ -65,10 +65,10 @@ export function Signup() {
                     No more losing important links, save them with just a few clicks
                 </Text>
 
-                <InputDefault />
-                <InputDefault />
-                <InputDefault />
-                <InputDefault />
+                <InputDefault placeholder="Nome" />
+                <InputDefault placeholder="Email" />
+                <InputDefault placeholder="Senha" />
+                <InputDefault  placeholder="Confirmar Senha"/>
 
                 <Button />
 

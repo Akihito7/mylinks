@@ -1,13 +1,16 @@
-import { HStack, VStack, useTheme, Text } from "native-base";
-import UserAvatar from 'react-native-user-avatar';
-import { SimpleLineIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native";
+import { HStack, VStack, useTheme, Text } from "native-base";
+
+import { SimpleLineIcons } from '@expo/vector-icons';
+import UserAvatar from 'react-native-user-avatar';
+import { useAuth } from "../Contexts/AuthContext";
 
 
 
 export function Header() {
 
-    const { sizes, colors } = useTheme()
+    const { sizes, colors } = useTheme();
+
     return (
         <HStack
             px={4}

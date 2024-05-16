@@ -1,3 +1,4 @@
+import { createContext, useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Center, NativeBaseProvider, Spinner } from 'native-base';
 import { Home } from './src/screens/Home';
@@ -11,6 +12,10 @@ import {
 } from "@expo-google-fonts/roboto-slab"
 import { Signln } from './src/screens/Signln';
 import { Signup } from './src/screens/Signup';
+import { AuthContextProvider } from './src/Contexts/AuthContext';
+
+
+
 
 export default function App() {
 
@@ -30,8 +35,11 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={THEME}>
-      <Signln />
-      <StatusBar style="auto" />
+      <AuthContextProvider>
+        <Home />
+        <StatusBar style="auto" />
+      </AuthContextProvider>
+
     </NativeBaseProvider>
   );
 }

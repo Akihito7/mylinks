@@ -9,6 +9,8 @@ import {
   RobotoSlab_400Regular,
   RobotoSlab_700Bold
 } from "@expo-google-fonts/roboto-slab"
+import { Signln } from './src/screens/Signln';
+import { Signup } from './src/screens/Signup';
 
 export default function App() {
 
@@ -17,14 +19,18 @@ export default function App() {
     RobotoSlab_700Bold
   })
 
+  if (!fontsLoaded) return (
+    <NativeBaseProvider>
+      <Center flex={1} bg="gray.700">
+        <Spinner size={40} color="purple.500" />
+      </Center>
+      <StatusBar style="auto" />
+    </NativeBaseProvider>
+  )
 
   return (
     <NativeBaseProvider theme={THEME}>
-
-      {
-        !fontsLoaded ? <Center flex={1}> <Spinner size={40} /> </Center> : <Home />
-      }
-
+      <Signln />
       <StatusBar style="auto" />
     </NativeBaseProvider>
   );

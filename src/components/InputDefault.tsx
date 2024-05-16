@@ -8,10 +8,7 @@ export function InputDefault() {
 
     return (
 
-        <HStack width="full" bg="gray.700" borderRadius={10} mb={2} alignItems="center" px={4}>
-
-            <Ionicons name="document-outline" size={24} color={colors.gray[500]} />
-
+        <HStack width="full" bg="gray.500" borderRadius={10} mb={2} alignItems="center" h={14}>
             <Input
                 bg="transparent"
                 borderWidth={0}

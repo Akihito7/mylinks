@@ -1,9 +1,15 @@
 import { Button as ButtonNativeBase, Text } from "native-base"
 
-export function Button({ onPress }: { onPress: () => void }) {
+
+type PropsButton = {
+    onPress: () => void;
+    title: string;
+}
+
+
+export function Button({ title, onPress }: PropsButton) {
     return (
         <ButtonNativeBase
-
             onPress={onPress}
             w="full" h={14} bg="purple.500" borderRadius={10} _pressed={{
                 bg: "purple.500",
@@ -14,7 +20,7 @@ export function Button({ onPress }: { onPress: () => void }) {
                 fontSize="xl"
                 color="white"
             >
-                Salvar
+                {title}
             </Text>
         </ButtonNativeBase>
     )

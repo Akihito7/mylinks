@@ -3,11 +3,20 @@ import { InputDefault } from "../components/InputDefault";
 import { Button } from "../components/Button";
 import { Image, ScrollView, TouchableOpacity } from "react-native";
 import backgroundImg from "../../assets/back.png";
+import { Controller, useForm } from "react-hook-form";
+import { useAuth, SignupProps } from "../Contexts/AuthContext";
 
 
 export function Signup() {
 
     const { colors } = useTheme();
+    const { control, handleSubmit, reset } = useForm();
+    const { signup } = useAuth();
+
+    async function handleSignup(credentials: SignupProps) {
+        signup(credentials);
+        reset();
+    }
 
     return (
 
@@ -21,7 +30,7 @@ export function Signup() {
 
             <VStack
                 flex={1}
-                pt={40}
+                pt={24}
                 px={4}
                 alignItems="center"
                 pb={24}
@@ -32,7 +41,7 @@ export function Signup() {
                 <Image
                     source={backgroundImg}
                     defaultSource={backgroundImg}
-                    alt="Pessoas treinando"
+                    alt="Foto de uma agenda"
                     resizeMode="cover"
                     style={{
                         position: "absolute",
@@ -65,6 +74,71 @@ export function Signup() {
                     No more losing important links, save them with just a few clicks
                 </Text>
 
+                <Controller
+                    name="email"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+
+                        <InputDefault
+
+                            placeholder="Email"
+                            onChangeText={onChange}
+                            value={value}
+
+                        />
+                    )}
+                />
+
+                <Controller
+                    name="name"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+
+                        <InputDefault
+                            placeholder="Nome"
+                            onChangeText={onChange}
+                            value={value}
+                        />
+                    )}
+                />
+
+                <Controller
+                    name="password"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+
+                        <InputDefault
+
+                            placeholder="Senha"
+                            type="password"
+                            onChangeText={onChange}
+                            value={value}
+
+                        />
+                    )}
+                />
+
+
+                <Controller
+                    name="passwordAgain"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+
+                        <InputDefault
+
+                            placeholder="Confirme a senha"
+                            type="password"
+                            onChangeText={onChange}
+                            value={value}
+
+                        />
+                    )}
+                />
+
+                <Button
+                    title="Cadastrar"
+                    onPress={handleSubmit(handleSignup)}
+                />
 
 
                 <TouchableOpacity>

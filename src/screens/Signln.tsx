@@ -4,7 +4,6 @@ import { Button } from "../components/Button";
 import { Image, ScrollView, TouchableOpacity } from "react-native";
 import backgroundImg from "../../assets/back.png";
 import { useForm, Controller } from "react-hook-form"
-import { api } from "../services/axios";
 import { useAuth } from "../Contexts/AuthContext";
 
 
@@ -17,9 +16,14 @@ type PropsLogin = {
 export function Signln() {
 
     const { colors } = useTheme();
-    const { user, setUser } = useAuth();
+    const { signln } = useAuth();
 
-    const { handleSubmit, control } = useForm();
+    const { handleSubmit, control, reset } = useForm();
+
+    async function handleLogin({ email, password }: PropsLogin) {
+        signln(email, password);
+        reset()
+    }
 
     return (
 
@@ -33,7 +37,7 @@ export function Signln() {
 
             <VStack
                 flex={1}
-                pt={40}
+                pt={24}
                 px={4}
                 alignItems="center"
                 pb={24}
@@ -44,7 +48,7 @@ export function Signln() {
                 <Image
                     source={backgroundImg}
                     defaultSource={backgroundImg}
-                    alt="Pessoas treinando"
+                    alt="Foto de uma agenda"
                     resizeMode="cover"
                     style={{
                         position: "absolute",
@@ -106,10 +110,10 @@ export function Signln() {
                     )}
                 />
 
-
-
-
-                <Button onPress={() => {}} />
+                <Button
+                    title="Entrar"
+                    onPress={handleSubmit(handleLogin)}
+                />
 
                 <TouchableOpacity>
                     <Text

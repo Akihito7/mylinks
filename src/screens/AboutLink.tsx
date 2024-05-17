@@ -12,7 +12,7 @@ export function AboutLink() {
             <Header />
 
             <ScrollView mt={8} px={4} flex={1} bg="gray.600" borderTopRadius={40}>
-                <Box mt={8}>
+                <Box mt={8} mb={4}>
 
                     <HStack px={4} mb={4} alignItems="center">
                         <Text
@@ -35,13 +35,14 @@ export function AboutLink() {
                         </TouchableOpacity>
                     </HStack>
 
-                    <InputDefault />
-                    <InputDefault />
+                    <InputDefault placeholder="Title" />
+                    <InputDefault placeholder="Link" />
 
                     <TextArea
+                        mt={2}
                         autoCompleteType={false}
                         borderWidth={0}
-                        bg="gray.700"
+                        bg="gray.500"
                         borderRadius={10}
                         color="gray.100"
                         fontSize="md"
@@ -50,13 +51,13 @@ export function AboutLink() {
                         placeholder="Descrição (Opcional)"
                         placeholderTextColor="gray.300"
                         _focus={{
-                            bg: "gray.700"
+                            bg: "gray.500"
                         }}
                     >
                     </TextArea>
-                    <Button />
+                    <Button title="Cadastrar link" onPress={() => { }} />
 
-                </Box>
+                </Box >
             </ScrollView>
         </Box >
     )

@@ -2,7 +2,7 @@ import { HStack, Input, IInputProps, Text } from "native-base";
 
 
 type PropsCustomInput = IInputProps & {
-    errorMessage: string | undefined
+    errorMessage?: string | undefined
 }
 
 export function InputDefault({ errorMessage = undefined, placeholder, ...restProps }: PropsCustomInput) {

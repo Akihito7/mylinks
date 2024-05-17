@@ -6,7 +6,7 @@ export function InputSearch() {
 
     const { colors } = useTheme()
     return (
-        <HStack width="full" bg="gray.700" borderRadius={10} mt={8} mb={8} alignItems="center" px={4}>
+        <HStack width="full" bg="gray.700" borderRadius={10} mb={8} alignItems="center" px={4}>
 
             <Feather name="search" size={24} color={colors.gray[500]} />
 

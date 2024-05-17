@@ -13,6 +13,7 @@ import {
 import { Signln } from './src/screens/Signln';
 import { Signup } from './src/screens/Signup';
 import { AuthContextProvider } from './src/Contexts/AuthContext';
+import { Routes } from './src/routes';
 
 
 
@@ -36,7 +37,7 @@ export default function App() {
   return (
     <NativeBaseProvider theme={THEME}>
       <AuthContextProvider>
-        <Signln />
+        <Routes />
         <StatusBar style="auto" />
       </AuthContextProvider>
 

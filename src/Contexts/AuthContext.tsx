@@ -1,6 +1,8 @@
 import { createContext, useContext, ReactNode, useState } from "react";
 import { api } from "../services/axios";
 import { Alert } from "react-native";
+import { AppError } from "../utils/AppError";
+import { Toast } from "native-base";
 
 
 export type LoginProps = {
@@ -25,7 +27,7 @@ type UserProps = {
 type PropsAuhtContext = {
     user: UserProps,
     setUser: ({ }: UserProps) => void;
-    signln: (credentials : LoginProps) => void;
+    signln: (credentials: LoginProps) => void;
     signup: (credentials: SignupProps) => void;
 }
 
@@ -36,7 +38,7 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
 
     const [user, setUser] = useState({} as UserProps);
 
-    async function signln({email, password} : LoginProps) {
+    async function signln({ email, password }: LoginProps) {
         try {
             const response = await api.post("/auth/signln", { email, password });
 
@@ -47,16 +49,28 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
 
             setUser(user);
         } catch (error) {
-            console.log(error)
+            const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde"
+            Toast.show({
+                title: errorMessage,
+                duration: 3000,
+                bg: "red.500",
+                placement: "top",
+            })
         }
     }
 
     async function signup(credentials: SignupProps) {
         try {
-            const response = await api.post("/auth/signup", credentials);
+            await api.post("/auth/signup", credentials);
             signln(credentials)
         } catch (error) {
-            console.log(error)
+            const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde"
+            Toast.show({
+                title: errorMessage,
+                duration: 3000,
+                bg: "red.500",
+                placement: "top",
+            })
         }
     }
 

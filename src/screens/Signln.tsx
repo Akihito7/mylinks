@@ -4,24 +4,27 @@ import { Button } from "../components/Button";
 import { Image, ScrollView, TouchableOpacity } from "react-native";
 import backgroundImg from "../../assets/back.png";
 import { useForm, Controller } from "react-hook-form"
-import { useAuth } from "../Contexts/AuthContext";
+import { useAuth, LoginProps } from "../Contexts/AuthContext";
+import * as Yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup";
 
 
-type PropsLogin = {
-    email: string;
-    password: string;
-}
-
+const signlnScheme = Yup.object({
+    email: Yup.string().email("Informe um Email válido").required("Informe um email"),
+    password: Yup.string().min(8).required("Informe uma senha")
+});
 
 export function Signln() {
 
     const { colors } = useTheme();
     const { signln } = useAuth();
 
-    const { handleSubmit, control, reset } = useForm();
+    const { handleSubmit, control, reset, formState: { errors } } = useForm<LoginProps>({
+        resolver: yupResolver(signlnScheme)
+    });
 
-    async function handleLogin({ email, password }: PropsLogin) {
-        signln(email, password);
+    async function handleLogin(crentials: LoginProps) {
+        signln(crentials);
         reset()
     }
 
@@ -87,7 +90,7 @@ export function Signln() {
                     render={({ field: { onChange, value } }) => (
 
                         <InputDefault
-
+                            errorMessage={errors.email?.message}
                             placeholder="Email"
                             onChangeText={onChange}
                             value={value}
@@ -101,13 +104,14 @@ export function Signln() {
                     render={({ field: { onChange, value } }) => (
 
                         <InputDefault
-
+                            errorMessage={errors.password?.message}
                             placeholder="Senha"
                             onChangeText={onChange}
                             value={value}
 
                         />
                     )}
+
                 />
 
                 <Button

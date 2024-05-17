@@ -36,7 +36,7 @@ export default function App() {
   return (
     <NativeBaseProvider theme={THEME}>
       <AuthContextProvider>
-        <Signup />
+        <Signln />
         <StatusBar style="auto" />
       </AuthContextProvider>
 

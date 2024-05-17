@@ -1,15 +1,18 @@
-    import { HStack, Input, IInputProps } from "native-base";
-    import { Ionicons } from '@expo/vector-icons';
-    import { useTheme } from "native-base";
+import { HStack, Input, IInputProps, Text } from "native-base";
 
-    export function InputDefault({ placeholder, ...restProps }: IInputProps) {
 
-        const { colors } = useTheme()
+type PropsCustomInput = IInputProps & {
+    errorMessage: string | undefined
+}
 
-        return (
+export function InputDefault({ errorMessage = undefined, placeholder, ...restProps }: PropsCustomInput) {
 
-            <HStack 
-            width="full" bg="gray.500" borderRadius={10} mb={2} alignItems="center" h={14}>
+    const isError = !!errorMessage;
+
+    return (
+        <>
+            <HStack
+                width="full" bg="gray.500" borderRadius={10} mt={2} alignItems="center" h={14}>
                 <Input
                     bg="transparent"
                     borderWidth={0}
@@ -24,6 +27,21 @@
 
                     }}
                 />
-            </HStack>
-        )
-    }
+            </HStack >
+
+            {
+                isError ?
+                    <Text
+                        alignSelf="flex-start"
+                        color="red.600"
+                        fontFamily="heading"
+                    >
+                        {errorMessage}
+                    </Text>
+
+                    : null
+            }
+
+        </>
+    )
+}

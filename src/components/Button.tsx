@@ -11,7 +11,12 @@ export function Button({ title, onPress }: PropsButton) {
     return (
         <ButtonNativeBase
             onPress={onPress}
-            w="full" h={14} bg="purple.500" borderRadius={10} _pressed={{
+            w="full"
+            h={14}
+            bg="purple.500"
+            borderRadius={10}
+            mt={2}
+            _pressed={{
                 bg: "purple.500",
                 opacity: 0.8
             }}>

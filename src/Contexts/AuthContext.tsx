@@ -2,6 +2,12 @@ import { createContext, useContext, ReactNode, useState } from "react";
 import { api } from "../services/axios";
 import { Alert } from "react-native";
 
+
+export type LoginProps = {
+    email: string;
+    password: string;
+}
+
 export type SignupProps = {
     name: string;
     email: string;
@@ -19,7 +25,7 @@ type UserProps = {
 type PropsAuhtContext = {
     user: UserProps,
     setUser: ({ }: UserProps) => void;
-    signln: (email: string, password: string) => void;
+    signln: (credentials : LoginProps) => void;
     signup: (credentials: SignupProps) => void;
 }
 
@@ -30,7 +36,7 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
 
     const [user, setUser] = useState({} as UserProps);
 
-    async function signln(email: string, password: string) {
+    async function signln({email, password} : LoginProps) {
         try {
             const response = await api.post("/auth/signln", { email, password });
 
@@ -48,7 +54,7 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
     async function signup(credentials: SignupProps) {
         try {
             const response = await api.post("/auth/signup", credentials);
-            signln(credentials.email, credentials.password)
+            signln(credentials)
         } catch (error) {
             console.log(error)
         }

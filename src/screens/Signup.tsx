@@ -5,12 +5,23 @@ import { Image, ScrollView, TouchableOpacity } from "react-native";
 import backgroundImg from "../../assets/back.png";
 import { Controller, useForm } from "react-hook-form";
 import { useAuth, SignupProps } from "../Contexts/AuthContext";
+import * as Yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const signupScheme = Yup.object({
+    name: Yup.string().required("Informe seu nome."),
+    email: Yup.string().email("Informe um email válido").required("Informe um email."),
+    password: Yup.string().min(8, "A senha deve ter pelo menos 8 caracteres").required("Informe uma senha."),
+    passwordAgain: Yup.string().oneOf([Yup.ref("password")], "As senhas precisam ser iguais").required("Confirme a senha.")
+});
 
 
 export function Signup() {
 
     const { colors } = useTheme();
-    const { control, handleSubmit, reset } = useForm();
+    const { control, handleSubmit, reset, formState: { errors } } = useForm<SignupProps>({
+        resolver: yupResolver(signupScheme)
+    });
     const { signup } = useAuth();
 
     async function handleSignup(credentials: SignupProps) {
@@ -75,12 +86,28 @@ export function Signup() {
                 </Text>
 
                 <Controller
+                    name="name"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+
+                        <InputDefault
+                            errorMessage={errors.name?.message}
+                            placeholder="Nome"
+                            onChangeText={onChange}
+                            value={value}
+                        />
+
+
+                    )}
+                />
+
+                <Controller
                     name="email"
                     control={control}
                     render={({ field: { onChange, value } }) => (
 
                         <InputDefault
-
+                            errorMessage={errors.email?.message}
                             placeholder="Email"
                             onChangeText={onChange}
                             value={value}
@@ -89,18 +116,6 @@ export function Signup() {
                     )}
                 />
 
-                <Controller
-                    name="name"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-
-                        <InputDefault
-                            placeholder="Nome"
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                />
 
                 <Controller
                     name="password"
@@ -108,7 +123,7 @@ export function Signup() {
                     render={({ field: { onChange, value } }) => (
 
                         <InputDefault
-
+                            errorMessage={errors.password?.message}
                             placeholder="Senha"
                             type="password"
                             onChangeText={onChange}
@@ -125,7 +140,7 @@ export function Signup() {
                     render={({ field: { onChange, value } }) => (
 
                         <InputDefault
-
+                            errorMessage={errors.passwordAgain?.message}
                             placeholder="Confirme a senha"
                             type="password"
                             onChangeText={onChange}

@@ -1,12 +1,12 @@
-import { Box, FlatList, ScrollView, Text, Toast, useSafeArea } from "native-base";
+import { useCallback, useState } from "react";
+import { Box, FlatList,Text, Toast, useSafeArea } from "native-base";
 import { Header } from "../components/Header";
 import { CardItem } from "../components/CardItem";
 import { InputSearch } from "../components/InputSearch";
-import { useEffect, useState } from "react";
 import { api } from "../services/axios";
 import { AppError } from "../utils/AppError";
+import { useFocusEffect } from "@react-navigation/native";
 
-const links = ["1", "2", "3", "4", "5", "6"];
 
 export type PropsLinks = {
     id: string;
@@ -17,7 +17,7 @@ export type PropsLinks = {
 
 export function Home() {
 
-    const [links, setLinks] = useState([] as PropsLinks[])
+    const [links, setLinks] = useState([] as PropsLinks[]);
 
     async function fetchLinks() {
 
@@ -36,10 +36,9 @@ export function Home() {
         }
     }
 
-    useEffect(() => {
+    useFocusEffect(useCallback(() => {
         fetchLinks()
-    }, [])
-
+    }, []))
 
     return (
         <Box flex={1} bg="gray.700">

@@ -5,7 +5,7 @@ type PropsCustomInput = IInputProps & {
     errorMessage?: string | undefined
 }
 
-export function InputDefault({ errorMessage = undefined, placeholder, ...restProps }: PropsCustomInput) {
+export function InputDefault({ defaultValue = undefined, errorMessage = undefined, placeholder, ...restProps }: PropsCustomInput) {
 
     const isError = !!errorMessage;
 
@@ -14,6 +14,7 @@ export function InputDefault({ errorMessage = undefined, placeholder, ...restPro
             <HStack
                 width="full" bg="gray.500" borderRadius={10} mt={2} alignItems="center" h={14}>
                 <Input
+                    defaultValue={defaultValue}
                     bg="transparent"
                     borderWidth={0}
 

@@ -6,8 +6,13 @@ import { Platform } from "react-native";
 import HomeSvg from "../../assets/home.svg"
 import { Entypo } from '@expo/vector-icons';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator<AuthStackParamList>();
 
+export type AuthStackParamList = {
+    aboutLink: { id?: string | null }; // id é opcional
+    home : undefined,
+
+};
 
 export function AppRoutes() {
     const { sizes, colors } = useTheme();

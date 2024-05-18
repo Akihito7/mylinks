@@ -1,38 +1,79 @@
-import { Box, FlatList, ScrollView, Text } from "native-base";
+import { Box, FlatList, ScrollView, Text, Toast, useSafeArea } from "native-base";
 import { Header } from "../components/Header";
 import { CardItem } from "../components/CardItem";
 import { InputSearch } from "../components/InputSearch";
+import { useEffect, useState } from "react";
+import { api } from "../services/axios";
+import { AppError } from "../utils/AppError";
 
 const links = ["1", "2", "3", "4", "5", "6"];
 
+export type PropsLinks = {
+    id: string;
+    title: string;
+    link: string;
+    description: string;
+}
+
 export function Home() {
+
+    const [links, setLinks] = useState([] as PropsLinks[])
+
+    async function fetchLinks() {
+
+        try {
+            const response = await api.get("/link");
+            setLinks(response.data)
+
+        } catch (error) {
+            const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde"
+            Toast.show({
+                title: errorMessage,
+                duration: 3000,
+                bg: "red.500",
+                placement: "top",
+            })
+        }
+    }
+
+    useEffect(() => {
+        fetchLinks()
+    }, [])
+
+
     return (
         <Box flex={1} bg="gray.700">
             <Header />
             <Box mt={8} px={4} pt={6} flex={1} bg="gray.600" borderTopRadius={40}>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <InputSearch />
-                    <Text
-                        fontFamily="heading"
-                        fontSize="xl"
-                        color="gray.100"
-                        textAlign="center"
-                        mb={4}
-                    >
-                        Seus links
-                    </Text>
-                    <FlatList
-                        data={links}
-                        keyExtractor={item => item}
-                        renderItem={({ item }) => (
-                            <CardItem />
-                        )}
-                        mb={4}
-                        ItemSeparatorComponent={() => <Box h={2} />}
 
-                        showsVerticalScrollIndicator={false}
-                    />
-                </ScrollView>
+                <InputSearch />
+                <Text
+                    fontFamily="heading"
+                    fontSize="xl"
+                    color="gray.100"
+                    textAlign="center"
+                    mb={4}
+                >
+                    Seus links
+                </Text>
+                <FlatList
+                    data={links}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item, index }) => (
+                        <CardItem
+                            key={index}
+                            id={item.id}
+                            title={item.title}
+                            link={item.link}
+                            description={item.description}
+                        />
+                    )}
+                    mb={4}
+                    ItemSeparatorComponent={() => <Box h={2} />}
+
+                    showsVerticalScrollIndicator={false}
+                />
+
             </Box>
         </Box>
     );

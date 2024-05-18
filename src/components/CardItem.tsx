@@ -1,7 +1,8 @@
 import { Box, Text } from "native-base";
 import { TouchableOpacity, Linking } from "react-native";
+import { PropsLinks } from "../screens/Home";
 
-export function CardItem() {
+export function CardItem(data : PropsLinks) {
     return (
         <Box
             width="full"
@@ -15,18 +16,18 @@ export function CardItem() {
                 fontFamily="heading"
                 fontSize="md"
             >
-                How to play of riven in lol
+                {data.title}
             </Text>
 
 
             <TouchableOpacity
-                onPress={() => Linking.openURL('https://youtube.com')}
+                onPress={() => Linking.openURL(`${data.link}`)}
             >
                 <Text
                     color="blue.500"
                     textDecorationLine="underline"
                 >
-                    https://youtube.com
+                    {data.link}
                 </Text>
             </TouchableOpacity>
         </Box>

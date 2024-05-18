@@ -1,8 +1,9 @@
-import { createContext, useContext, ReactNode, useState } from "react";
+import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import { api } from "../services/axios";
-import { Alert } from "react-native";
 import { AppError } from "../utils/AppError";
 import { Toast } from "native-base";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 export type LoginProps = {
@@ -20,6 +21,7 @@ export type SignupProps = {
 type UserProps = {
     id: number,
     email: string,
+    password: string,
     name: string,
     token: string,
 }
@@ -37,10 +39,13 @@ const AuthContext = createContext({} as PropsAuhtContext);
 function AuthContextProvider({ children }: { children: ReactNode }) {
 
     const [user, setUser] = useState({} as UserProps);
+    const USERCREDENTIALSASYNCSTORAGE = "@mylinks:user"
 
     async function signln({ email, password }: LoginProps) {
         try {
             const response = await api.post("/auth/signln", { email, password });
+            
+            api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
 
             const user = {
                 ...response.data.user,
@@ -48,6 +53,9 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
             };
 
             setUser(user);
+            await AsyncStorage.setItem(USERCREDENTIALSASYNCSTORAGE, JSON.stringify({ ...user, password }));
+
+
         } catch (error) {
             const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde"
             Toast.show({
@@ -62,7 +70,7 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
     async function signup(credentials: SignupProps) {
         try {
             await api.post("/auth/signup", credentials);
-            signln(credentials)
+            await signln(credentials)
         } catch (error) {
             const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde"
             Toast.show({
@@ -73,6 +81,30 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
             })
         }
     }
+
+    async function attemptAutoLogin() {
+        const userCredentials = await AsyncStorage.getItem(USERCREDENTIALSASYNCSTORAGE);
+        const parsedUser: UserProps | undefined = userCredentials ? JSON.parse(userCredentials) : undefined;
+
+        if (!parsedUser) return;
+
+        try {
+            await signln(parsedUser);
+        } catch (error) {
+            const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde"
+            Toast.show({
+                title: errorMessage,
+                duration: 3000,
+                bg: "red.500",
+                placement: "top",
+            })
+        }
+
+    }
+
+    useEffect(() => {
+        attemptAutoLogin();
+    }, [])
 
 
     return (

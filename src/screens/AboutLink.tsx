@@ -18,7 +18,7 @@ const aboutLinkScheme = Yup.object({
     description: Yup.string(),
 });
 
-type AboutLinkParams =  {
+type AboutLinkParams = {
     id?: string;
 }
 
@@ -29,7 +29,7 @@ type PropsLink = {
 };
 
 export function AboutLink() {
-    
+
     const [editLink, setEditLink] = useState<boolean>(false);
     const [link, setLink] = useState<PropsLink>({} as PropsLink);
 
@@ -39,11 +39,9 @@ export function AboutLink() {
 
     const { navigate } = useNavigation()
 
-
-
     const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
     const route = useRoute();
-    const { id } = route.params as AboutLinkParams|| {};
+    const { id } = route.params as AboutLinkParams || {};
 
     const handleFetchLink = useCallback(async () => {
 
@@ -62,6 +60,40 @@ export function AboutLink() {
             });
         }
     }, [id]);
+
+    async function handleSaveLink(data: PropsLink) {
+
+        try {
+            await api.post("/link", data);
+            navigate("home" as never);
+        } catch (error) {
+            const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde"
+            Toast.show({
+                title: errorMessage,
+                duration: 3000,
+                bg: "red.500",
+                placement: "top",
+            })
+        }
+
+    };
+
+    async function handleEditLink(data: PropsLink) {
+       
+        try {
+            await api.put(`/link/${id}`, data);
+            navigate("home" as never);
+
+        } catch (error) {
+            const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde";
+            Toast.show({
+                title: errorMessage,
+                duration: 3000,
+                bg: "red.500",
+                placement: "top",
+            });
+        }
+    }
 
     useEffect(() => {
         if (id) {
@@ -85,27 +117,6 @@ export function AboutLink() {
             };
         }, [navigation])
     );
-
-
-
-
-    async function handleSaveLink(data: PropsLink) {
-
-        try {
-            await api.post("/link", data);
-            reset();
-            navigate("home" as never);
-        } catch (error) {
-            const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde"
-            Toast.show({
-                title: errorMessage,
-                duration: 3000,
-                bg: "red.500",
-                placement: "top",
-            })
-        }
-
-    };
 
     return (
         <Box flex={1} bg="gray.700">
@@ -160,7 +171,6 @@ export function AboutLink() {
                                 placeholder="Link"
                                 onChangeText={onChange}
                                 value={value}
-
                             />
                         )}
 
@@ -202,7 +212,7 @@ export function AboutLink() {
 
                             <Button
                                 title="Editar link"
-                                onPress={handleSubmit(handleSaveLink)}
+                                onPress={handleSubmit(handleEditLink)}
                             />
 
                             :

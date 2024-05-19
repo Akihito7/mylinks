@@ -11,6 +11,12 @@ export function Header() {
 
     const { sizes, colors } = useTheme();
 
+    const { logout } = useAuth();
+
+    async function handleLogout(){
+        logout();
+    }
+
     return (
         <HStack
             px={4}
@@ -45,7 +51,7 @@ export function Header() {
                 </Text>
             </VStack>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleLogout}>
                 <SimpleLineIcons name="logout" size={24} color="white" />
             </TouchableOpacity>
 

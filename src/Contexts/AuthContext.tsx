@@ -31,6 +31,7 @@ type PropsAuhtContext = {
     setUser: ({ }: UserProps) => void;
     signln: (credentials: LoginProps) => void;
     signup: (credentials: SignupProps) => void;
+    logout : () => void;
 }
 
 
@@ -44,7 +45,7 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
     async function signln({ email, password }: LoginProps) {
         try {
             const response = await api.post("/auth/signln", { email, password });
-            
+
             api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`
 
             const user = {
@@ -102,6 +103,11 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
 
     }
 
+    async function logout() {
+        await AsyncStorage.setItem(USERCREDENTIALSASYNCSTORAGE, JSON.stringify({}));
+        setUser({} as UserProps)
+    };
+
     useEffect(() => {
         attemptAutoLogin();
     }, [])
@@ -112,7 +118,8 @@ function AuthContextProvider({ children }: { children: ReactNode }) {
             user,
             setUser,
             signln,
-            signup
+            signup,
+            logout
         }}>
             {children}
         </AuthContext.Provider>

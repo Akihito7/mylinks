@@ -108,6 +108,7 @@ export function Signln() {
                             placeholder="Senha"
                             onChangeText={onChange}
                             value={value}
+                            type="password"
 
                         />
                     )}

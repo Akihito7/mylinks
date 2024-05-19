@@ -37,7 +37,7 @@ export function AboutLink() {
         resolver: yupResolver(aboutLinkScheme)
     });
 
-    const { navigate } = useNavigation()
+    const { navigate, goBack} = useNavigation()
 
     const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
     const route = useRoute();
@@ -79,9 +79,25 @@ export function AboutLink() {
     };
 
     async function handleEditLink(data: PropsLink) {
-       
+
         try {
             await api.put(`/link/${id}`, data);
+            navigate("home" as never);
+
+        } catch (error) {
+            const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde";
+            Toast.show({
+                title: errorMessage,
+                duration: 3000,
+                bg: "red.500",
+                placement: "top",
+            });
+        }
+    }
+
+    async function handleDeleteLink() {
+        try {
+            await api.delete(`/link/${id}`);
             navigate("home" as never);
 
         } catch (error) {
@@ -125,22 +141,32 @@ export function AboutLink() {
             <ScrollView mt={8} px={4} flex={1} bg="gray.600" borderTopRadius={40}>
                 <Box mt={8} mb={4}>
 
-                    <HStack px={4} mb={4} alignItems="center">
-                        <Text
-                            color="gray.100"
-                            fontSize="md"
-                            fontFamily="heading"
-                            flex={1}
-                        >
-                            {editLink ? "Editar link" : "Criar link"}
-                        </Text>
+                    <HStack px={4} mb={4} alignItems="center" justifyContent="space-between">
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={goBack}>
                             <Text
                                 color="gray.300"
                                 fontSize="md"
                             >
                                 Voltar
+                            </Text>
+
+                        </TouchableOpacity>
+
+                        <Text
+                            color="gray.100"
+                            fontSize="md"
+                            fontFamily="heading"
+                        >
+                            {editLink ? "Editar link" : "Criar link"}
+                        </Text>
+
+                        <TouchableOpacity onPress={handleDeleteLink}>
+                            <Text
+                                color="red.400"
+                                fontSize="md"
+                            >
+                                Excluir
                             </Text>
 
                         </TouchableOpacity>

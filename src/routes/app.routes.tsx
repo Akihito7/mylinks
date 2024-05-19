@@ -1,21 +1,20 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { Home } from "../screens/Home";
 import { AboutLink } from "../screens/AboutLink";
-import { Text, useTheme } from "native-base";
-import { Platform } from "react-native";
-import HomeSvg from "../../assets/home.svg"
+import { useTheme } from "native-base";
+import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
 const { Navigator, Screen } = createBottomTabNavigator<AuthStackParamList>();
 
 export type AuthStackParamList = {
-    aboutLink: { id?: string | null }; // id é opcional
+    aboutLink: { id?: string | null };
     home : undefined,
 
 };
 
 export function AppRoutes() {
-    const { sizes, colors } = useTheme();
+    const { colors } = useTheme();
 
     return (
         <Navigator screenOptions={{
@@ -43,7 +42,7 @@ export function AppRoutes() {
                 component={AboutLink}
                 options={{
                     tabBarIcon: ({ color }) => (
-                        <Entypo name="home" size={24} color={color} />
+                        <AntDesign name="addfile" size={24} color={color} />
                     )
                 }}
             />

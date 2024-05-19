@@ -1,19 +1,21 @@
 import { TouchableOpacity } from "react-native";
 import { HStack, VStack, useTheme, Text } from "native-base";
+import { useAuth } from "../Contexts/AuthContext";
 
 import { SimpleLineIcons } from '@expo/vector-icons';
 import UserAvatar from 'react-native-user-avatar';
-import { useAuth } from "../Contexts/AuthContext";
 
+type PropsHeader = {
+    name: string;
+}
 
-
-export function Header() {
+export function Header({ name }: PropsHeader) {
 
     const { sizes, colors } = useTheme();
 
     const { logout } = useAuth();
 
-    async function handleLogout(){
+    async function handleLogout() {
         logout();
     }
 
@@ -45,9 +47,10 @@ export function Header() {
                     fontSize="md"
                     color="gray.100"
                     fontFamily="heading"
+                    textTransform="capitalize"
 
                 >
-                    Guilherme Akihito
+                    {name}
                 </Text>
             </VStack>
 

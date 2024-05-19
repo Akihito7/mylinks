@@ -11,6 +11,7 @@ import { api } from "../services/axios";
 import { AppError } from "../utils/AppError";
 import { useNavigation, useRoute, useFocusEffect, NavigationProp } from "@react-navigation/native";
 import { AuthStackParamList } from "../routes/app.routes";
+import { useAuth } from "../Contexts/AuthContext";
 
 const aboutLinkScheme = Yup.object({
     title: Yup.string().required("Informe um titulo"),
@@ -37,7 +38,9 @@ export function AboutLink() {
         resolver: yupResolver(aboutLinkScheme)
     });
 
-    const { navigate, goBack} = useNavigation()
+    const { user } = useAuth()
+
+    const { navigate, goBack } = useNavigation()
 
     const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
     const route = useRoute();
@@ -111,6 +114,14 @@ export function AboutLink() {
         }
     }
 
+    function handleCleanFieldsInput(){
+        reset({
+            title: "",
+            link: "",
+            description: ""
+        })
+    }
+
     useEffect(() => {
         if (id) {
             handleFetchLink();
@@ -136,7 +147,7 @@ export function AboutLink() {
 
     return (
         <Box flex={1} bg="gray.700">
-            <Header />
+            <Header name={user.name} />
 
             <ScrollView mt={8} px={4} flex={1} bg="gray.600" borderTopRadius={40}>
                 <Box mt={8} mb={4}>
@@ -161,15 +172,32 @@ export function AboutLink() {
                             {editLink ? "Editar link" : "Criar link"}
                         </Text>
 
-                        <TouchableOpacity onPress={handleDeleteLink}>
-                            <Text
-                                color="red.400"
-                                fontSize="md"
-                            >
-                                Excluir
-                            </Text>
+                        {editLink ?
 
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={handleDeleteLink}>
+                                <Text
+                                    color="red.400"
+                                    fontSize="md"
+                                >
+                                    Excluir
+                                </Text>
+
+                            </TouchableOpacity>
+
+                            :
+
+                            <TouchableOpacity onPress={handleCleanFieldsInput}>
+                                <Text
+                                    color="red.400"
+                                    fontSize="md"
+                                >
+                                    Limpar
+                                </Text>
+
+                            </TouchableOpacity>
+
+
+                        }
                     </HStack>
 
                     <Controller

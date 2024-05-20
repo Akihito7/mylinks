@@ -31,7 +31,7 @@ export function Header({ name }: PropsHeader) {
         >
 
 
-            <UserAvatar size={sizes[12]} name="Guilherme Akihito" bgColor={colors.purple[500]} />
+            <UserAvatar size={sizes[12]} name={name} bgColor={colors.purple[500]} />
 
             <VStack ml={4} flex={1}>
                 <Text

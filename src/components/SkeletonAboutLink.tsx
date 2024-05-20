@@ -35,7 +35,7 @@ export function SkeletonAboutLink() {
                 width="full"
                 bg="gray.500"
                 borderRadius={10}
-                mt={2}
+                mt={4}
                 alignItems="center"
                 h={14}
             />

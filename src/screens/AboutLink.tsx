@@ -12,6 +12,7 @@ import { AppError } from "../utils/AppError";
 import { useNavigation, useRoute, useFocusEffect, NavigationProp } from "@react-navigation/native";
 import { AuthStackParamList } from "../routes/app.routes";
 import { useAuth } from "../Contexts/AuthContext";
+import { SkeletonAboutLink } from "../components/SkeletonAboutLink";
 
 const aboutLinkScheme = Yup.object({
     title: Yup.string().required("Informe um titulo"),
@@ -33,6 +34,7 @@ export function AboutLink() {
 
     const [editLink, setEditLink] = useState<boolean>(false);
     const [link, setLink] = useState<PropsLink>({} as PropsLink);
+    const [isLoading, setIsLoading] = useState(true);
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm<PropsLink>({
         resolver: yupResolver(aboutLinkScheme)
@@ -53,6 +55,7 @@ export function AboutLink() {
             setLink(response.data);
             setEditLink(true);
             reset(response.data);
+            setIsLoading(false)
         } catch (error) {
             const errorMessage = error instanceof AppError ? error.errorMessage : "Erro no servidor, tente novamente mais tarde";
             Toast.show({
@@ -114,7 +117,7 @@ export function AboutLink() {
         }
     }
 
-    function handleCleanFieldsInput(){
+    function handleCleanFieldsInput() {
         reset({
             title: "",
             link: "",
@@ -122,16 +125,17 @@ export function AboutLink() {
         })
     }
 
-    useEffect(() => {
-        if (id) {
-            handleFetchLink();
-        } else {
-            setEditLink(false);
-        }
-    }, [id]);
-
     useFocusEffect(
         useCallback(() => {
+
+            if (id) {
+                handleFetchLink()
+
+            } else {
+                setEditLink(false);
+                setIsLoading(false)
+
+            }
             return () => {
                 if (navigation.setParams) {
                     navigation.setParams({ id: null });
@@ -140,9 +144,12 @@ export function AboutLink() {
                         link: "",
                         description: ""
                     })
+
                 }
+
+                setIsLoading(true)
             };
-        }, [navigation])
+        }, [navigation, id])
     );
 
     return (
@@ -200,85 +207,101 @@ export function AboutLink() {
                         }
                     </HStack>
 
-                    <Controller
-                        name="title"
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-
-                            <InputDefault
-                                errorMessage={errors.title?.message}
-                                placeholder="Title"
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-
-                    />
-
-                    <Controller
-                        name="link"
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-
-                            <InputDefault
-                                errorMessage={errors.link?.message}
-                                placeholder="Link"
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-
-                    />
-
-                    <Controller
-                        name="description"
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-
-                            <TextArea
-                                onChangeText={onChange}
-                                value={value}
-                                mt={2}
-                                autoCompleteType={false}
-                                borderWidth={0}
-                                bg="gray.500"
-                                borderRadius={10}
-                                color="gray.100"
-                                fontSize="md"
-                                h={32}
-                                mb={2}
-                                placeholder="Descrição (Opcional)"
-                                placeholderTextColor="gray.300"
-                                _focus={{
-                                    bg: "gray.500"
-                                }}
-                            />
-                        )}
-                    />
-
-
 
 
                     {
-                        editLink
 
-                            ?
-
-                            <Button
-                                title="Editar link"
-                                onPress={handleSubmit(handleEditLink)}
-                            />
+                        isLoading ?
+                            <SkeletonAboutLink />
 
                             :
 
-                            <Button
-                                title="Cadastrar link"
-                                onPress={handleSubmit(handleSaveLink)}
-                            />
+                            <>
+                                <Controller
+                                    name="title"
+                                    control={control}
+                                    render={({ field: { onChange, value } }) => (
+
+                                        <InputDefault
+                                            errorMessage={errors.title?.message}
+                                            placeholder="Title"
+                                            onChangeText={onChange}
+                                            value={value}
+                                        />
+                                    )}
+
+                                />
+
+                                <Controller
+                                    name="link"
+                                    control={control}
+                                    render={({ field: { onChange, value } }) => (
+
+                                        <InputDefault
+                                            errorMessage={errors.link?.message}
+                                            placeholder="Link"
+                                            onChangeText={onChange}
+                                            value={value}
+                                        />
+                                    )}
+
+                                />
+
+                                <Controller
+                                    name="description"
+                                    control={control}
+                                    render={({ field: { onChange, value } }) => (
+
+                                        <TextArea
+                                            onChangeText={onChange}
+                                            value={value}
+                                            mt={2}
+                                            autoCompleteType={false}
+                                            borderWidth={0}
+                                            bg="gray.500"
+                                            borderRadius={10}
+                                            color="gray.100"
+                                            fontSize="md"
+                                            h={32}
+                                            mb={2}
+                                            placeholder="Descrição (Opcional)"
+                                            placeholderTextColor="gray.300"
+                                            _focus={{
+                                                bg: "gray.500"
+                                            }}
+                                        />
+                                    )}
+                                />
+
+
+
+                                {
+                                    editLink
+
+                                        ?
+
+                                        <Button
+                                            title="Editar link"
+                                            onPress={handleSubmit(handleEditLink)}
+                                        />
+
+                                        :
+
+                                        <Button
+                                            title="Cadastrar link"
+                                            onPress={handleSubmit(handleSaveLink)}
+                                        />
+
+                                }
+                            </>
+
                     }
+
+
 
                 </Box >
             </ScrollView>
+
         </Box >
     )
 }

@@ -16,7 +16,7 @@ export function InputSearch({ handleCleanSearchValue, ...props }: PropsInputSear
             width="full"
             bg="gray.700"
             borderRadius={10}
-            mb={8}
+            mb={4}
             alignItems="center"
             px={4}
         >
